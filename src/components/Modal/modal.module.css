@@ -1,0 +1,63 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1200;
+}
+
+.modal {
+  max-width: 70%;
+  height: auto;
+  position: relative;
+  border-radius: 10px;
+  padding: 35px;
+}
+
+.neonBorder {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.neonBorder::before,
+.neonBorder::after {
+  content: '';
+  position: absolute;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  box-sizing: border-box;
+  border: 5px solid #00f;
+  border-radius: 10px;
+  opacity: 0.7;
+  animation: neon-glow 2.5s linear infinite;
+}
+
+.neonBorder::before {
+  top: -25px;
+  left: -25px;
+}
+
+.neonBorder::after {
+  bottom: -25px;
+  right: -25px;
+}
+
+@keyframes neon-glow {
+  0%,
+  100% {
+    opacity: 0.7;
+
+    box-shadow: 0 0 5px #00f, 0 0 5px #00f, 0 0 5px #00f; /* Тінь контуру */
+  }
+  50% {
+    opacity: 0.4;
+
+    box-shadow: none;
+  }
+}

@@ -1,0 +1,12 @@
+.App {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 16px;
+  padding-bottom: 24px;
+}
+
+.buttonLM {
+  text-align: center;
+  margin: 15px;
+  border-color: #1b0e55;
+}
