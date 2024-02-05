@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from './Button/Button';
 import Modal from './Modal/Modal';
 import Searchbar from './Searchbar/Searchbar';
@@ -7,56 +7,28 @@ import { searchImages } from '../api/posts';
 import css from './app.module.css';
 import ImageGallery from './ImageGallery/ImageGallery';
 
-class App extends Component {
-  state = {
-    search: '',
-    items: [],
-    loading: false,
-    error: null,
-    page: 1,
-    modalOpen: false,
-    itemDetails: {},
-    totalHits: 0,
-  };
 
-  async componentDidUpdate(prevProps, prevState) {
-    const { search, page } = this.state;
-    if (search && (search !== prevState.search || page !== prevState.page)) {
-      await this.getApi(search, page);
-    }
-  }
+const App = () => {
+  const [search, setSearch] = useState('');
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = usestate(false);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [itemDetails, setItemDetails] = useState({});
+  const [totalHits, setTotalHits] = useState(0);
 
-  async getApi() {
-    const { search, page } = this.state;
-    try {
-      this.setState({
-        loading: true,
-      });
-      const { data } = await searchImages(search, page);
-      if (data.hits && data.hits.length > 0) {
-        this.setState(({ items }) => ({
-          items: [...items, ...data.hits],
-          // items: data.hits?.length ? [...items, ...data.hits] : items,
-          totalHits: data.totalHits,
-        }));
-      } else {
-        alert('Вибачте, сталася помилка, спробуйте ще.');
-      }
-    } catch (error) {
-      this.setState({ error: error.message });
-    } finally {
-      this.setState({
-        loading: false,
-      });
-    }
-  }
 
-  handleSearch = ({ search }) => {
-    this.setState({ search, items: [], page: 1 });
+
+const handleSearch = ({ search }) => {
+  setSearch(search);
+  setItems([]);
+  setPage(1);
+
   };
 
   loadMore = () => {
-    this.setState(({ page }) => ({ page: page + 1 }));
+    setPage(prevPage => prevPage + 1 );
   };
 
   showModal = largeImageURL => {
@@ -74,6 +46,29 @@ class App extends Component {
       itemDetails: {},
     });
   };
+
+
+  useEffect(() => {
+    const getApi = async () => {
+      try {
+        setLoading(true);
+        const { data } = await searchImages(search, page);
+        setSearch(data?.length ? data : []);
+        setTotalHits(data.totalHits);
+        
+      } else {
+        alert('Вибачте, сталася помилка, спробуйте ще.');
+      }
+    catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    } getApi()
+  },[])
+
+
+  
 
   render() {
     const { handleSearch, loadMore, showModal, closeModal } = this;

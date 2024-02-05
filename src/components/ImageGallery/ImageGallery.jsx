@@ -10,11 +10,6 @@ const ImageGallery = ({ items, showModal }) => {
       largeImageURL={largeImageURL}
       showModal={showModal}
     />
-
-    // <li key={id} onClick={() => showModal({ id, webformatURL, largeImageURL })}>
-    //   <img src={webformatURL} alt="" />
-    //   <img src={largeImageURL} alt="" />
-    // </li>
   ));
 
   return <ul className={css.gallery}>{elements}</ul>;
