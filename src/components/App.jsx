@@ -22,6 +22,7 @@ const App = () => {
       try {
         setLoading(true);
         const { data } = await searchImages(search, page);
+        setTotalHits(data.totalHits);
         setSearch(prevSearch =>
           data?.length ? [...prevSearch, ...data] : prevSearch
         );
@@ -73,7 +74,6 @@ const App = () => {
         <p className={css.error}>Вибачте, сталася помилка, спробуйте ще</p>
       )}
       {loading && <Loader />}
-      {/* <SearchBar searchImages={searchImages} /> */}
       {isItems && <ImageGallery items={items} showModal={showModal} />}
       {isItems && items.length < totalHits ? (
         <div className={css.buttonLM}>

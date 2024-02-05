@@ -9,5 +9,3 @@ const Button = ({ onClick, type = 'submit', children }) => {
 };
 
 export default Button;
-// тепер на хуках
-// ot hfp

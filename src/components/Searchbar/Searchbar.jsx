@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import css from './searchBar.module.css';
 
 const Searchbar = ({ onSubmit }) => {
-  const [state, setState] = useState({
-    search: '',
-  });
+  const [search, setSearch] = useState('');
 
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setState({ ...state, [name]: value });
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    console.log(inputRef);
+    inputRef.current.focus();
+  }, []);
+
+  const handleChange = e => {
+    const { value } = e.target;
+    setSearch(value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit({ ...state });
-    reset();
+    onSubmit(search);
+    setSearch('');
   };
 
   const reset = () => {
-    setState({ search: '' });
+    setSearch({ search: '' });
   };
 
   return (
@@ -27,8 +32,9 @@ const Searchbar = ({ onSubmit }) => {
         <div>
           <label>
             <input
+              ref={inputRef}
               className={css.searchFormInput}
-              value={state.search}
+              value={search}
               onChange={handleChange}
               required
               type="text"
