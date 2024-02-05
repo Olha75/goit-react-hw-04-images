@@ -7,7 +7,6 @@ const Searchbar = ({ onSubmit }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    console.log(inputRef);
     inputRef.current.focus();
   }, []);
 

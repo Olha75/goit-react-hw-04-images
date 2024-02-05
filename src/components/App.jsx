@@ -19,14 +19,23 @@ const App = () => {
 
   const prevSearchRef = useRef(null);
 
+  const handleSearch = search => {
+    setSearch(search);
+    setItems([]);
+    setPage(1);
+  };
+
   useEffect(() => {
     const getApi = async () => {
       try {
         setLoading(true);
         const { data } = await searchImages(search, page);
-        setTotalHits(data.totalHits);
+
         if (data.hits && data.hits.length > 0) {
           setItems(prevItems => [...prevItems, ...data.hits]);
+          setTotalHits(data.totalHits);
+        } else {
+          alert('Вибачте, сталася помилка, спробуйте ще.');
         }
       } catch (error) {
         setError(error.message);
@@ -35,17 +44,11 @@ const App = () => {
       }
     };
 
-    if (search && search !== prevSearchRef.current) {
+    if (search) {
       getApi();
       prevSearchRef.current = search;
     }
   }, [search, page]);
-
-  const handleSearch = search => {
-    setSearch(search);
-    setItems([]);
-    setPage(1);
-  };
 
   const loadMore = () => {
     setPage(prevPage => prevPage + 1);
