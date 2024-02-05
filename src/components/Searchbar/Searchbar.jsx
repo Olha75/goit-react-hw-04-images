@@ -22,9 +22,9 @@ const Searchbar = ({ onSubmit }) => {
     setSearch('');
   };
 
-  const reset = () => {
-    setSearch({ search: '' });
-  };
+  // const reset = () => {
+  //   setSearch({ search: '' });
+  // };
 
   return (
     <header className={css.header}>

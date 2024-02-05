@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from './Button/Button';
 import Modal from './Modal/Modal';
 import Searchbar from './Searchbar/Searchbar';
@@ -17,15 +17,17 @@ const App = () => {
   const [itemDetails, setItemDetails] = useState({});
   const [totalHits, setTotalHits] = useState(0);
 
+  const prevSearchRef = useRef(null);
+
   useEffect(() => {
     const getApi = async () => {
       try {
         setLoading(true);
         const { data } = await searchImages(search, page);
         setTotalHits(data.totalHits);
-        setSearch(prevSearch =>
-          data?.length ? [...prevSearch, ...data] : prevSearch
-        );
+        if (data.hits && data.hits.length > 0) {
+          setItems(prevItems => [...prevItems, ...data.hits]);
+        }
       } catch (error) {
         setError(error.message);
       } finally {
@@ -33,8 +35,9 @@ const App = () => {
       }
     };
 
-    if (search) {
+    if (search && search !== prevSearchRef.current) {
       getApi();
+      prevSearchRef.current = search;
     }
   }, [search, page]);
 
