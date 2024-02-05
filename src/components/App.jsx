@@ -41,7 +41,7 @@ const App = () => {
     }
   }, [search, page]);
 
-  const handleSearch = ({ search }) => {
+  const handleSearch = search => {
     setSearch(search);
     setItems([]);
     setPage(1);
@@ -51,7 +51,7 @@ const App = () => {
     setPage(prevPage => prevPage + 1);
   };
 
-  const showModal = ({ largeImageURL }) => {
+  const showModal = largeImageURL => {
     setModalOpen(true);
     setItemDetails({ largeImageURL });
   };

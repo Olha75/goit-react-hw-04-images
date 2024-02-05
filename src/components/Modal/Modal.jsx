@@ -17,7 +17,7 @@ const Modal = ({ close, largeImageURL }) => {
   useEffect(() => {
     document.addEventListener('keydown', closeModal);
 
-    return () => document.addEventListener('keydown', closeModal);
+    return () => document.removeEventListener('keydown', closeModal);
   }, [closeModal]);
 
   return createPortal(
